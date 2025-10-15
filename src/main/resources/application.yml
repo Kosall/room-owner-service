@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: room-service		
+  data:
+    mongodb:
+      host: localhost
+      port: 28017
+      database: room
+      username: root
+      password: root
+      authentication-database: admin				
+logging:
+  level:
+    root: INFO
+    com.piseth.java.school: DEBUG		
+room:
+  seed:
+    enabled: true
+server:
+  port: 8057
