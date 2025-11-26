@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.query.Criteria;
 
-import com.piseth.java.school.roomservice.dto.RoomFilterDTO;
-import com.piseth.java.school.roomservice.util.RoomConstants;
-import com.piseth.java.school.roomservice.util.RoomCriteriaBuilder;
+import com.piseth.java.school.roomownerservice.dto.RoomFilterDTO;
+import com.piseth.java.school.roomownerservice.util.RoomConstants;
+import com.piseth.java.school.roomownerservice.util.RoomCriteriaBuilder;
 
 public class RoomCriteriaBuilderTest {
 	/*
