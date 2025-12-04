@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.piseth.java.school.roomownerservice.dto.PageDTO;
 import com.piseth.java.school.roomownerservice.dto.RoomCreateRequest;
+import com.piseth.java.school.roomownerservice.dto.RoomFilterDTO;
 import com.piseth.java.school.roomownerservice.dto.RoomResponse;
 import com.piseth.java.school.roomownerservice.dto.RoomUpdateRequest;
 import com.piseth.java.school.roomownerservice.service.RoomService;
@@ -29,7 +31,7 @@ public class RoomController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Mono<RoomResponse> create(@Valid @RequestBody final RoomCreateRequest req) {
-		return roomService.create(req);
+		return roomService.create(req,"123");
 	}
 
 	@PatchMapping("/{id}")
@@ -46,6 +48,10 @@ public class RoomController {
 	@GetMapping("/{id}")
 	  public Mono<RoomResponse> getById(@PathVariable final String id) {
 	      return roomService.getById(id);
+	  }
+	 @GetMapping
+	  public Mono<PageDTO<RoomResponse>> getRoomByFilterPagination(final RoomFilterDTO roomFilterDTO) {
+	      return roomService.getRoomByFilterPagination(roomFilterDTO);
 	  }
 
 }
