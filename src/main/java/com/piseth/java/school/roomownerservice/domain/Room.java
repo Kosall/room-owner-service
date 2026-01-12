@@ -99,6 +99,6 @@ public class Room {
 	private String updatedBy;
 
 	// ----------- Flexible Extension ------------
-	private Map<String, Object> extraAttributes = new HashMap<>();
+	private  Map<String, Object> extraAttributes = new HashMap<>();
 
 }

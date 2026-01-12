@@ -40,7 +40,7 @@ public interface RoomMapper {
   RoomResponse toResponse(Room entity);
 
   // Entity → Full event payload (for Kafka)
-  //@Mapping(target = "address", source = "address")
+  @Mapping(target = "address", source = "address")
   RoomFullPayload toFullPayload(Room entity);
 
   @Mapping(target = "geo.latitude", source = "geo.latitude")

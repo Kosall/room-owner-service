@@ -20,10 +20,10 @@ public interface RoomService {
 	*/
 	
 	Mono<RoomResponse> create(RoomCreateRequest request, final String ownerId);
-	Mono<RoomResponse> update(String id, RoomUpdateRequest request);
-	Mono<Void> delete(String id);
-	Mono<RoomResponse> getById(final String id);
-	Mono<PageDTO<RoomResponse>> getRoomByFilterPagination( final RoomFilterDTO filterDTO);
+	Mono<RoomResponse> update(String id, RoomUpdateRequest request,final String ownerId);
+	Mono<Void> delete(String id,final String ownerId);
+	Mono<RoomResponse> getRoomById(final String id,final String ownerId);
+	Mono<PageDTO<RoomResponse>> getRoomByFilterPagination( final RoomFilterDTO filterDTO,final String ownerId);
 	
 	
 }

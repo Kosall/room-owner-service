@@ -64,6 +64,7 @@ public class RoomServiceImpl implements RoomService {
 		// filter from outbox to send kafka message
 
 		final Room entity = mapper.toEntity(request);
+		entity.setOwnerId(ownerId);
 
 		if (entity.getStatus() == null) {
 			entity.setStatus(RoomStatus.AVAILABLE);
@@ -78,7 +79,7 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	@Override
-	public Mono<RoomResponse> update(String id, RoomUpdateRequest request) {
+	public Mono<RoomResponse> update(String id, RoomUpdateRequest request,final String ownerId) {
 		return repository.findById(id).switchIfEmpty(Mono.error(new RoomNotFoundException(id))).flatMap(existing -> {
 			mapper.updateEntity(existing, request);
 			return repository.save(existing)
@@ -89,7 +90,7 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	@Override
-	public Mono<Void> delete(String id) {
+	public Mono<Void> delete(String id,final String ownerId) {
 		return repository.findById(id).switchIfEmpty(Mono.error(new RoomNotFoundException(id))).flatMap(existing -> {
 			// keep final snapshot for delete event
 			return enqueueEvent(existing, RoomEventType.ROOM_DELETED, "delete").then(repository.deleteById(id));
@@ -121,7 +122,7 @@ public class RoomServiceImpl implements RoomService {
 	}
 
 	@Override
-	public Mono<RoomResponse> getById(String id) {
+	public Mono<RoomResponse> getRoomById(String id,final String ownerId) {
 		
 		return repository.findById(id)
 				.switchIfEmpty(Mono.error(new RoomNotFoundException(id)))
@@ -130,11 +131,12 @@ public class RoomServiceImpl implements RoomService {
 				.doOnError(ex->log.info("Fail to create room {}",ex.getMessage(),ex));
 	}
 	@Override
-	  public Mono<PageDTO<RoomResponse>> getRoomByFilterPagination(final RoomFilterDTO filterDTO) {
+	  public Mono<PageDTO<RoomResponse>> getRoomByFilterPagination(final RoomFilterDTO filterDTO,final String ownerId) {
 	      final int page = filterDTO.getPage() != null ? filterDTO.getPage() : 0;
 	      final int size = filterDTO.getSize() != null ? filterDTO.getSize() : 20;
 
 	      final Criteria criteria = RoomCriteriaBuilder.build(filterDTO);
+	      criteria.and("ownerId").is(ownerId);
 
 	      final Query countQuery = new Query(criteria);
 	      final Mono<Long> countMono = customRepository.countByFilter(countQuery);
